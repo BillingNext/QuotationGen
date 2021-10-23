@@ -1,0 +1,128 @@
+﻿@page
+@model BillingNextQuotation.Company.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Company</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form enctype="multipart/form-data" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Company.CompanyName" class="control-label"></label>
+                        <input asp-for="Company.CompanyName" class="form-control" />
+                        <span asp-validation-for="Company.CompanyName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Company.CompLogo" class="control-label"></label>
+                        <input asp-for="Company.CompLogo" type="file" accept="image/x-png,image/jpeg" class="form-control" required />
+                        <span asp-validation-for="Company.CompLogo" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="Company.GSTIN" class="control-label"></label>
+                        <input asp-for="Company.GSTIN" class="form-control" />
+                        <span asp-validation-for="Company.GSTIN" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Company.BankName" class="control-label"></label>
+                        <input asp-for="Company.BankName" class="form-control" />
+                        <span asp-validation-for="Company.BankName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Company.BankAccountType" class="control-label"></label>
+                        <select asp-for="Company.BankAccountType" class="form-control" asp-items="Html.GetEnumSelectList(typeof(Enums.BankAccountType))"> </select>
+                        <span asp-validation-for="Company.BankAccountType" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Company.AccountNumber" class="control-label"></label>
+                        <input asp-for="Company.AccountNumber" class="form-control" />
+                        <span asp-validation-for="Company.AccountNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Company.IFSCcode" class="control-label"></label>
+                        <input asp-for="Company.IFSCcode" class="form-control" />
+                        <span asp-validation-for="Company.IFSCcode" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Company.PAN" class="control-label"></label>
+                        <input asp-for="Company.PAN" class="form-control" />
+                        <span asp-validation-for="Company.PAN" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Company.CompanyOwner" class="control-label"></label>
+                        <input asp-for="Company.CompanyOwner" class="form-control" />
+                        <span asp-validation-for="Company.CompanyOwner" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Company.CompanyPhoneNumber" class="control-label"></label>
+                        <input asp-for="Company.CompanyPhoneNumber" class="form-control" />
+                        <span asp-validation-for="Company.CompanyPhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Company.CompanyEmail" class="control-label"></label>
+                        <input asp-for="Company.CompanyEmail" class="form-control" />
+                        <span asp-validation-for="Company.CompanyEmail" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="Company.CompanyAddress" class="control-label"></label>
+                        <input asp-for="Company.CompanyAddress" class="form-control" />
+                        <span asp-validation-for="Company.CompanyAddress" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

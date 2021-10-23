@@ -1,0 +1,12 @@
+﻿@page
+@model LogoutModel
+@{
+    ViewData["Title"] = "Log out";
+    Layout = "_LayoutLogout";
+}
+
+<header>
+    <h1>@ViewData["Title"]</h1>
+    <p>You have successfully logged out of the application.</p>
+    <p><a asp-area="Identity" asp-page="/Account/LoginOTP">Log back in</a></p>
+</header>

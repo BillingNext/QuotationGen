@@ -1,0 +1,373 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BillingNextQuotation</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @*<link rel="stylesheet" href="~/css/site.css" />*@
+    <link href="~/lib/mvc-lookup/css/mvc-lookup.css" rel="stylesheet">
+    <link href="~/elements/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/lib/mvc-grid/css/mvc-grid.css" rel="stylesheet">
+    <link href="~/elements/FrontendDecorators/css/adminlte.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/elements/plugins/fontawesome-free/css/all.min.css">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+
+        <nav class="main-header navbar navbar-expand-sm navbar-toggleable-sm navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"> <span class="navbar-toggler-icon"></span></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a class="navbar-brand">BillingNext</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a class="navbar-brand" asp-area="" asp-page="/Index">Dashboard</a>
+                </li>
+            </ul>
+
+            <!-- SEARCH FORM -->
+            <form class="form-inline">
+                <div class="input-group input-group-sm">
+                    <input class="form-control form-control-navbar" type="search" placeholder="Search Quotation(Number)" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-navbar" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <partial name="_LoginPartial" />
+            </div>
+
+        </nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+
+        
+            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+                <!-- Brand Logo -->
+                <a href="/Index" class="brand-link">
+                    @try
+                    {
+                        <img src="data:image/png;base64,@Convert.ToBase64String(AppDbContext.Companies.FirstOrDefault().CompanyLogoImg)" alt="@AppDbContext.Companies.FirstOrDefault().CompanyName Logo" class="brand-image img-circle elevation-3"
+                             style="opacity: .8">
+                        <span class="brand-text font-weight-light">@AppDbContext.Companies.FirstOrDefault().CompanyName</span>
+                    }
+                    catch (NullReferenceException)
+                    {
+                        <img src="~/StaticContent/shivamglass.png" alt="Shivam Glass Logo" class="brand-image img-circle elevation-3"
+                             style="opacity: .8">
+                        <span class="brand-text font-weight-light">Shivam Glass</span>
+                    }
+                </a>
+
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Sidebar user panel (optional) -->
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        @{
+                            try
+                            {
+                                <div class="image">
+                                    <img src="data:image/png;base64,@Convert.ToBase64String(UserManager.Users.Where(a => a.UserName.Equals(User.Identity.Name)).FirstOrDefault().ProfilePicture)" class="img-circle elevation-2" alt="User Image">
+                                </div>
+                            }
+                            catch (Exception e)
+                            {
+                                <div class="image">
+                                    <img src="~/elements/FrontendDecorators/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                                </div>
+                            }
+                        }
+                        <div class="info">
+                            <a asp-area="Identity" asp-page="/Account/Manage/Index" class="d-block">@User.Identity.Name</a>
+                        </div>
+                    </div>
+                    @if (!User.IsInRole("Dealers"))
+                    {
+                        <!-- Sidebar Menu -->
+                        <nav class="mt-2">
+                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <!-- Add icons to the links using the .nav-icon class
+                with font-awesome or any other icon font library -->
+                                <li id="nav_dashboard" class="nav-item has-treeview menu-open">
+                                    <a asp-page="/Dashboard/Admin/Index" class="nav-link">
+                                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                                        <p>
+                                            Dashboard
+                                        </p>
+                                    </a>
+                                </li>
+                                <li id="nav_quotation" class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-file-invoice"></i>
+                                        <p>
+                                            Quotations
+                                            <i class="fas fa-angle-left right"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a id="nav_quotation_new" asp-page="/Quotation/Admin/Create" class="nav-link">
+                                                <i class="far fa-plus-square nav-icon"></i>
+                                                <p>New Quotation</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a id="nav_quotation_all" asp-page="/Quotation/Admin/Index" class="nav-link">
+                                                <i class="fas fa-bars nav-icon"></i>
+                                                <p>All Quotation</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li id="nav_products" class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-tags"></i>
+                                        <p>
+                                            Products
+                                            <i class="fas fa-angle-left right"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a id="nav_products_new" asp-page="/Products/Create" class="nav-link">
+                                                <i class="far fa-plus-square nav-icon"></i>
+                                                <p>New Product</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a id="nav_products_all" asp-page="/Products/Index" class="nav-link">
+                                                <i class="fas fa-bars nav-icon"></i>
+                                                <p>All Products</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li id="nav_SC" class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-coins"></i>
+                                        <p>
+                                            Special Charges
+                                            <i class="fas fa-angle-left right"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a id="nav_SC_new" asp-page="/SpecialCharges/Create" class="nav-link">
+                                                <i class="far fa-plus-square nav-icon"></i>
+                                                <p>New Special Charge</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a id="nav_SC_all" asp-page="/SpecialCharges/Index" class="nav-link">
+                                                <i class="fas fa-bars nav-icon"></i>
+                                                <p>All Special Charges</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+
+                                <li id="nav_QNote" class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-sticky-note"></i>
+                                        <p>
+                                            Quotation Note
+                                            <i class="fas fa-angle-left right"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a id="nav_QNote_new" asp-page="/QuotationNote/Create" class="nav-link">
+                                                <i class="far fa-plus-square nav-icon"></i>
+                                                <p>New Quotation Note</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a id="nav_QNote_all" asp-page="/QuotationNote/Index" class="nav-link">
+                                                <i class="fas fa-bars nav-icon"></i>
+                                                <p>All Quotation Notes</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="nav-header"><i class="fas fa-user-shield"></i>User Management </li>
+                                <li class="nav-item">
+                                    <a asp-area="Identity" asp-page="/Account/Register" class="nav-link">
+                                        <i class="nav-icon fas fa-user-plus"></i>
+                                        <p>Add User</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="Identity" asp-page="/Account/Manage/Admin/Index" class="nav-link">
+                                        <i class="nav-icon fas fa-user-cog"></i>
+                                        <p>Manage Users</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-header">Core Setup</li>
+                                <li class="nav-item">
+                                    <a asp-page="/Company/Index" class="nav-link">
+                                        <i class="nav-icon fas fa-building"></i>
+                                        <p>
+                                            Company
+                                            <span class="badge badge-danger right">Admin Only</span>
+                                        </p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    }
+                    else
+                    {
+                        <nav class="mt-2">
+                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <!-- Add icons to the links using the .nav-icon class
+                with font-awesome or any other icon font library -->
+                                <li id="nav_dashboard" class="nav-item has-treeview menu-open">
+                                    <a asp-page="Dashboard/GenUser/Index" class="nav-link">
+                                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                                        <p>
+                                            Dashboard
+                                        </p>
+                                    </a>
+                                </li>
+                                <li id="nav_quotation" class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-file-invoice"></i>
+                                        <p>
+                                            Quotations
+                                            <i class="fas fa-angle-left right"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a id="nav_quotation_new" asp-page="/Quotation/Create" class="nav-link">
+                                                <i class="far fa-plus-square nav-icon"></i>
+                                                <p>New Quotation</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a id="nav_quotation_all" asp-page="/Quotation/Index" class="nav-link">
+                                                <i class="fas fa-bars nav-icon"></i>
+                                                <p>All Quotation</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    }
+                    <!-- /.sidebar-menu -->
+                </div>
+                <!-- /.sidebar -->
+            </aside>
+                         
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+
+
+                <div class="container">
+                    <main role="main">
+                        <partial name="MvcLookup/_Dialog" />
+                        @RenderBody()
+                        <script src="~/lib/mvc-lookup/js/mvc-lookup.js"></script>
+                        <script src="~/lib/mvc-grid/js/mvc-grid.js"></script>
+                        <script>
+                            document.querySelectorAll(".mvc-lookup").forEach(element => new MvcLookup(element));
+                        </script>
+                        <script>
+                            document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
+                        </script>
+                    </main>
+                </div>
+            </div>
+                          
+        <footer class="main-footer d-print-none text-muted">
+            <strong> &copy; 2020 - BillingNext Quotation - by <a class="text-info" asp-page="/About"> Sayaji Infotech </a></strong>
+
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0.1
+            </div>
+        </footer>
+        <div id="wait" class="modal fade" tabindex="-1" data-modal-index="3" data-focus-on="input:first">
+            <div class="modal-dialog modal-sm loader">
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        @*<div class="col-md-6" id="waittxt" style="display:none;"><h3>This may take a while. Please wait!</h3></div>*@
+                        <div class="col">
+                            <center><img src='~/images/loader1.gif' width="100%" height="100%" /></center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <!-- Select2 -->
+        <script src="~/elements/plugins/select2/js/select2.full.min.js"></script>
+
+        <!--toastr-->
+        <script src="~/elements/plugins/toastr/toastr.min.js"></script>
+
+        <!-- AdminLTE -->
+        <script src="~/elements/FrontendDecorators/js/adminlte.js"></script>
+
+        <!-- OPTIONAL SCRIPTS -->
+        <script src="~/elements/plugins/chart.js/Chart.min.js"></script>
+        <script src="~/elements/FrontendDecorators/js/demo.js"></script>
+        <script src="~/elements/FrontendDecorators/js/pages/dashboard3.js"></script>
+
+        <script>
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+        </script>
+        <script>
+            $('.select2').select2()
+        </script>
+
+        @RenderSection("Scripts", required: false)
+
+    </div>
+</body>
+</html>

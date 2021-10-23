@@ -1,0 +1,50 @@
+﻿@page
+@model BillingNextQuotation.Products.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Products</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Products.ProductName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Products.ProductName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Products.ProductFullSheetPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Products.ProductFullSheetPrice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Products.ProductPieceCutPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Products.ProductPieceCutPrice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Products.ProductDimensionX)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Products.ProductDimensionX)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Products.ProductDimensionY)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Products.ProductDimensionY)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Products.ProductId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

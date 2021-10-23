@@ -1,0 +1,101 @@
+﻿@page
+@model BillingNextQuotation.SpecialCharges.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>SpecialCharges</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SpecialCharges.SpecialChargesId" />
+            <div class="form-group">
+                <label asp-for="SpecialCharges.SpecialChargeName" class="control-label"></label>
+                <input asp-for="SpecialCharges.SpecialChargeName" class="form-control" />
+                <span asp-validation-for="SpecialCharges.SpecialChargeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SpecialCharges.SpecialChargeType" class="control-label"></label>
+                <select asp-for="SpecialCharges.SpecialChargeType" onchange="SCTypeChange(this.value)" class="form-control" asp-items="Html.GetEnumSelectList(typeof(Enums.SpecialChargeType))"> </select>
+                <span asp-validation-for="SpecialCharges.SpecialChargeType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <label asp-for="SpecialCharges.SpecialChargeFixedAmount" class="control-label"></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon2">&#8377;</span>
+                        </div>
+                        <input asp-for="SpecialCharges.SpecialChargeFixedAmount" class="form-control" aria-describedby="basic-addon2" />
+                    </div>
+                    <span asp-validation-for="SpecialCharges.SpecialChargeFixedAmount" class="text-danger"></span>
+                </div>
+            </div>
+            @{
+                if (Model.SpecialCharges.SpecialChargeType == Enums.SpecialChargeType.FixedCharge)
+                {
+                    <div class="form-group" id="SCpercentage" style="display:none;">
+                        <label asp-for="SpecialCharges.SpecialChargePercentage" class="control-label"></label>
+                        <div class="input-group">
+                            <input asp-for="SpecialCharges.SpecialChargePercentage" class="form-control" aria-describedby="basic-addon2" />
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">&percnt;</span>
+                            </div>
+                        </div>
+                        <span asp-validation-for="SpecialCharges.SpecialChargePercentage" class="text-danger"></span>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group" id="SCpercentage" >
+                        <label asp-for="SpecialCharges.SpecialChargePercentage" class="control-label"></label>
+                        <div class="input-group">
+                            <input asp-for="SpecialCharges.SpecialChargePercentage" min="1" max="100" class="form-control" aria-describedby="basic-addon2" />
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">&percnt;</span>
+                            </div>
+                        </div>
+                        <span asp-validation-for="SpecialCharges.SpecialChargePercentage" class="text-danger"></span>
+                    </div>
+                }
+            }
+
+            <br />
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="SpecialCharges.IsDefault" /> @Html.DisplayNameFor(model => model.SpecialCharges.IsDefault)
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Company Name</label>
+                <select asp-for="SpecialCharges.CompanyId" class="form-control" asp-items="ViewBag.Company"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    function SCTypeChange(value) {
+        if (value == "1") {
+            document.getElementById('SCpercentage').style.display = "inline";
+        }
+        else {
+            document.getElementById('SCpercentage').style.display = "none";
+        }
+    }
+</script>

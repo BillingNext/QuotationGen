@@ -1,0 +1,55 @@
+﻿@page
+@model BillingNextQuotation.SpecialCharges.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>SpecialCharges</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-9">
+            @Html.DisplayNameFor(model => model.SpecialCharges.SpecialChargeName)
+        </dt>
+        <dd class="col-sm-3">
+            @Html.DisplayFor(model => model.SpecialCharges.SpecialChargeName)
+        </dd>
+        <dt class="col-sm-9">
+            @Html.DisplayNameFor(model => model.SpecialCharges.SpecialChargeType)
+        </dt>
+        <dd class="col-sm-3">
+            @Html.DisplayFor(model => model.SpecialCharges.SpecialChargeType)
+        </dd>
+        <dt class="col-sm-9">
+            @Html.DisplayNameFor(model => model.SpecialCharges.SpecialChargeFixedAmount)
+        </dt>
+        <dd class="col-sm-3">
+            @Html.DisplayFor(model => model.SpecialCharges.SpecialChargeFixedAmount)
+        </dd>
+        <dt class="col-sm-9">
+            @Html.DisplayNameFor(model => model.SpecialCharges.SpecialChargePercentage)
+        </dt>
+        <dd class="col-sm-3">
+            @Html.DisplayFor(model => model.SpecialCharges.SpecialChargePercentage) &percnt;
+        </dd>
+        <dt class="col-sm-9">
+            @Html.DisplayNameFor(model => model.SpecialCharges.IsDefault)
+        </dt>
+        <dd class="col-sm-3">
+            @Html.DisplayFor(model => model.SpecialCharges.IsDefault)
+        </dd>
+        <dt class="col-sm-9">
+            @Html.DisplayNameFor(model => model.SpecialCharges.Company)
+        </dt>
+        <dd class="col-sm-3">
+            @Html.DisplayFor(model => model.SpecialCharges.Company.CompanyName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.SpecialCharges.SpecialChargesId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

@@ -1,0 +1,84 @@
+﻿@page
+@model BillingNextQuotation.Company.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+<h2>Details</h2>
+
+<div>
+    <h4>Company</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.CompanyName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Company.CompanyName)
+        </dd>
+        <dt>
+            Firm Logo
+        </dt>
+        <dd>
+            <img class="img-responsive full-width" src="data:image/png;base64,@Convert.ToBase64String(Model.Company.CompanyLogoImg)" />
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.GSTIN)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Company.GSTIN)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.BankName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Company.BankName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.BankAccountType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Company.BankAccountType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.AccountNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Company.AccountNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.IFSCcode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Company.IFSCcode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.PAN)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Company.PAN)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.CompanyPhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Company.CompanyPhoneNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.CompanyEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Company.CompanyEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.CompanyAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Company.CompanyAddress)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Company.CompanyId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

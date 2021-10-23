@@ -1,0 +1,108 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-BillingNextQuotation-E81A11D1-415C-4B0C-A9DE-5B942E45CFAB</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20200716115418_Products_Introduced.cs" />
+    <Compile Remove="Data\Migrations\20200716115418_Products_Introduced.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200720053356_NewTablesAdded.cs" />
+    <Compile Remove="Data\Migrations\20200720053356_NewTablesAdded.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200720054524_NewTablesAdded.cs" />
+    <Compile Remove="Data\Migrations\20200720054524_NewTablesAdded.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200723073050_ProfilePhotoAndCompanyAdded.cs" />
+    <Compile Remove="Data\Migrations\20200723073050_ProfilePhotoAndCompanyAdded.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200723073503_ProfilePhotoAndCompanyAdded.cs" />
+    <Compile Remove="Data\Migrations\20200723073503_ProfilePhotoAndCompanyAdded.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200723073619_ProfilePhotoAndCompanyAdded.cs" />
+    <Compile Remove="Data\Migrations\20200723073619_ProfilePhotoAndCompanyAdded.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200724064958_SpecialChargesIDAutoGenerate.cs" />
+    <Compile Remove="Data\Migrations\20200724064958_SpecialChargesIDAutoGenerate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200724072836_SpecialChargesModifications.cs" />
+    <Compile Remove="Data\Migrations\20200724072836_SpecialChargesModifications.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200725064415_QuotationForIdAdded.cs" />
+    <Compile Remove="Data\Migrations\20200725064415_QuotationForIdAdded.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200725064633_QuotationForIdAdded.cs" />
+    <Compile Remove="Data\Migrations\20200725064633_QuotationForIdAdded.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200725095753_QuotationForIdAdded1.cs" />
+    <Compile Remove="Data\Migrations\20200725095753_QuotationForIdAdded1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200807054152_QuotationNumberAdded.cs" />
+    <Compile Remove="Data\Migrations\20200807054152_QuotationNumberAdded.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200808023544_SecretCodeString.cs" />
+    <Compile Remove="Data\Migrations\20200808023544_SecretCodeString.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200819134003_QuotationGrandTotalAdded.cs" />
+    <Compile Remove="Data\Migrations\20200819134003_QuotationGrandTotalAdded.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200820074129_QuotationAmountRequired.cs" />
+    <Compile Remove="Data\Migrations\20200820074129_QuotationAmountRequired.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200912191556_MySQLSupport.cs" />
+    <Compile Remove="Data\Migrations\20200912191556_MySQLSupport.Designer.cs" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="NonFactors.Grid.Mvc6" Version="6.1.0" />
+    <PackageReference Include="NonFactors.Lookup.Mvc6" Version="5.0.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="wwwroot\StaticContent\feet-inches-form.html" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\css\style.css~" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\css\_DS_Store" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\less\animated.less" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\less\bordered-pulled.less" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\less\core.less" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\less\fixed-width.less" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\less\font-awesome.less" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\less\icons.less" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\less\larger.less" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\less\list.less" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\less\mixins.less" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\less\path.less" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\less\rotated-flipped.less" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\less\stacked.less" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\less\variables.less" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\scss\font-awesome.scss" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\scss\_animated.scss" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\scss\_bordered-pulled.scss" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\scss\_core.scss" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\scss\_fixed-width.scss" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\scss\_icons.scss" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\scss\_larger.scss" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\scss\_list.scss" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\scss\_mixins.scss" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\scss\_path.scss" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\scss\_rotated-flipped.scss" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\scss\_stacked.scss" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\scss\_variables.scss" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\font-awesome\_DS_Store" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\fonts\_DS_Store" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\img\client\_DS_Store" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\img\_DS_Store" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\js\bootstrap.js" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\js\bootstrap.min.js" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\js\jquery.1.11.1.js" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\js\jquery.isotope.js" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\js\main.js" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\js\main.js~" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\js\modernizr.custom.js" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\js\owl.carousel.js" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\js\SmoothScroll.js" />
+    <None Include="wwwroot\StaticContent\StaticHomeSite\js\_DS_Store" />
+  </ItemGroup>
+
+</Project>

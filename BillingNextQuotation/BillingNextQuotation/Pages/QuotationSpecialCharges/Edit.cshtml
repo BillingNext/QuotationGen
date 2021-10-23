@@ -1,0 +1,62 @@
+﻿@page "{specialchargeid}/{quotationid}"
+@model BillingNextQuotation.QuotationSpecialCharges.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<script src="~/Scripts/AjaxTransport/QuotationEditModeSpecialChargeEdit.js"></script>
+<h1>Edit</h1>
+
+<h4>Edit Special Charges for Quotation: @Model.QuotationSpecialCharges.Quotation.QuotationNumber for @Model.QuotationSpecialCharges.Quotation.QuotationTo</h4><br />
+<h4>Edit Special Charge : @Model.QuotationSpecialCharges.SpecialCharges.SpecialChargeName</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="QuotationSpecialCharges.SpecialChargesId" />
+            <input type="hidden" asp-for="QuotationSpecialCharges.QuotationId" />
+            <input type="hidden" asp-for="QuotationSpecialCharges.CompanyId" />
+
+            @if (Model.QuotationSpecialCharges.DefaultCalculationOverride)
+            {
+                <div class="form-group form-check">
+                    <label class="form-switch">
+                        @Html.DisplayNameFor(model => model.QuotationSpecialCharges.DefaultCalculationOverride)
+                        <input type="checkbox" id="defaultCalcCHK" asp-for="QuotationSpecialCharges.DefaultCalculationOverride" onchange="defaultCalculationChanged();" ><i></i>
+                    </label>
+                </div>
+                <div class="form-group" id="spamount">
+                    <label asp-for="QuotationSpecialCharges.SpecialChargeAmount" class="control-label"></label>
+                    <input asp-for="QuotationSpecialCharges.SpecialChargeAmount" class="form-control" />
+                    <span asp-validation-for="QuotationSpecialCharges.SpecialChargeAmount" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <div class="form-group form-check">
+                    <label class="form-switch">
+                        @Html.DisplayNameFor(model => model.QuotationSpecialCharges.DefaultCalculationOverride)
+                        <input type="checkbox" id="defaultCalcCHK" asp-for="QuotationSpecialCharges.DefaultCalculationOverride" onchange="defaultCalculationChanged();" ><i></i>
+                    </label>
+                </div>
+                <div class="form-group" style="display:none;" id="spamount">
+                    <label asp-for="QuotationSpecialCharges.SpecialChargeAmount" class="control-label"></label>
+                    <input asp-for="QuotationSpecialCharges.SpecialChargeAmount" class="form-control" />
+                    <span asp-validation-for="QuotationSpecialCharges.SpecialChargeAmount" class="text-danger"></span>
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="/Quotation/Admin/Edit" asp-route-id="@Model.QuotationSpecialCharges.QuotationId">Back to Edit Quotation</a> |
+    <a asp-page="/Quotation/Admin/Index">Back to Quotation List</a>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

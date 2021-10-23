@@ -1,0 +1,14 @@
+﻿@page
+@model BillingNextQuotation.AcceptedModel
+@{
+    ViewData["Title"] = "Accepted";
+}
+
+<h1>Accepted</h1>
+<p>Thank you for Accepting quotation. @Model.CompanyName will soon contact you.</p>
+
+<script>
+      setTimeout(function(){
+            window.location.href = '/Redirector?service=Quotation&&subservice=Index';
+         }, 5000);
+</script>

@@ -1,0 +1,104 @@
+﻿@page "{id}"
+@model BillingNextQuotation.Areas.Identity.Pages.Account.Manage.Admin.EditModel
+@{
+    Layout = "/Areas/Identity/Pages/Account/Manage/Admin/_LayoutEdit.cshtml";
+    ViewData["Title"] = "Edit";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+<div class="row">
+    <div class="col-md-3">
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" href="#">Profile</a></li>
+            <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword" asp-route-id="@Model.QuotationUser.UserId">Password</a></li>
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <h1>Edit User</h1>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <form enctype="multipart/form-data" onsubmit="submitform()" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="QuotationUser.UserId" />
+                    <input type="hidden" asp-for="QuotationUser.RoleName" />
+                    <div class="form-group">
+                        <label asp-for="QuotationUser.Name" class="control-label"></label>
+                        <input asp-for="QuotationUser.Name" class="form-control" />
+                        <span asp-validation-for="QuotationUser.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">User Name (It must be unique)</label>
+                        <input asp-for="QuotationUser.UserName" class="form-control" />
+                        <span asp-validation-for="QuotationUser.UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="QuotationUser.RoleName" class="control-label"></label>
+                        <select asp-for="QuotationUser.RoleId" asp-items="ViewBag.Roles" class="form-control"> </select>
+                        <span asp-validation-for="QuotationUser.RoleName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="QuotationUser.PhoneNumber" class="control-label"></label>
+                        <input asp-for="QuotationUser.PhoneNumber" class="form-control" />
+                        <span asp-validation-for="QuotationUser.PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="QuotationUser.PhysicalAddress" class="control-label"></label>
+                        <input asp-for="QuotationUser.PhysicalAddress" class="form-control" />
+                        <span asp-validation-for="QuotationUser.PhysicalAddress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="QuotationUser.CustomerCatagory" class="control-label"></label>
+                        <select asp-for="QuotationUser.CustomerCatagory" class="form-control" asp-items="Html.GetEnumSelectList(typeof(BillingNextQuotation.Enums.CustomerCategory))"></select>
+                        <span asp-validation-for="QuotationUser.CustomerCatagory" class="text-danger"></span>
+                    </div>
+
+                    @if (Model.QuotationUser.ProfilePicture != null)
+                    {
+                        <img class="img-responsive full-width" style="width:50%; height:50%;" src="data:image/png;base64,@Convert.ToBase64String(Model.QuotationUser.ProfilePicture)" /><br>
+                    }
+                    else
+                    {
+                        <h5>No Image (Default is used)</h5>
+                        <img class="img-responsive full-width" src="~/elements/FrontendDecorators/img/user2-160x160.jpg" /><br>
+                    }
+                    <div class="form-group" style="padding-top:20px;">
+                        <label asp-for="QuotationUser.ProfilePic" class="control-label"></label>
+                        <input asp-for="QuotationUser.ProfilePic" type="file" accept="image/x-png,image/jpeg" class="form-control" />
+                        <input type="hidden" value="false" name="profpicupdated" id="profpic_updated" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Update User Data" class="btn btn-primary" />
+                    </div>
+                </form>
+
+                @if (!Model.QuotationUser.PhoneNumberConfirmed)
+                {
+                    <button class="btn btn-info" onclick=" window.location.pathname = encodeURI('/Identity/Account/Manage/Admin/VerifyPhoneChange/@Model.QuotationUser.UserId/@Model.QuotationUser.PhoneNumber');">
+                        Verify Phone Number
+                    </button>
+                }
+
+            </div>
+        </div>
+
+        <div>
+            <a asp-page="./Index">Back to List</a>
+        </div>
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
+        <script>
+            function submitform() {
+                if (document.getElementById("QuotationUser_ProfilePic").files.length > 0) {
+                    document.getElementById("profpic_updated").value = "true";
+                }
+            }
+        </script>
+
+        <script src="~/lib/mvc-grid/js/mvc-grid.js"></script>
+        <script>
+            document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
+        </script>
+    </div>
+</div>

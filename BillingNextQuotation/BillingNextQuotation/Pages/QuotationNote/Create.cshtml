@@ -1,0 +1,58 @@
+﻿@page
+@model BillingNextQuotation.QuotationNote.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+<!-- summernote -->
+<link rel="stylesheet" href="~/elements/plugins/summernote/summernote-bs4.css">
+<h1>Create</h1>
+
+<h4>Quotation Note</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="QuotationNote.NoteName" class="control-label"></label>
+                <input asp-for="QuotationNote.NoteName" class="form-control"/>
+                <span asp-validation-for="QuotationNote.NoteName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuotationNote.Note" class="control-label"></label>
+                <textarea asp-for="QuotationNote.Note" class="textarea" placeholder="Write Quotation Content here"
+                          style="width: 100%; height: 500px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                <span asp-validation-for="QuotationNote.Note" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="QuotationNote.IsNoteDefault" /> @Html.DisplayNameFor(model => model.QuotationNote.IsNoteDefault)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuotationNote.CompanyId" class="control-label"></label>
+                <select asp-for="QuotationNote.CompanyId" class="form-control" asp-items="ViewBag.CompanyId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script src="~/elements/plugins/summernote/summernote-bs4.min.js" defer></script>
+<script src="~/elements/plugins/jquery/jquery.min.js"></script>
+<script>
+    $(function () {
+        // Summernote
+        $('.textarea').summernote()
+    })
+</script>

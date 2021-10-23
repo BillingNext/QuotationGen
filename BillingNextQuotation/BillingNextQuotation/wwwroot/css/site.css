@@ -1,0 +1,151 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+/*html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height 
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there 
+}
+*/
+.form-switch {
+    display: inline-block;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.form-switch i {
+    position: relative;
+    display: inline-block;
+    margin-right: .5rem;
+    width: 46px;
+    height: 26px;
+    background-color: #e6e6e6;
+    border-radius: 23px;
+    vertical-align: text-bottom;
+    transition: all 0.3s linear;
+}
+
+.form-switch i::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 42px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 11px;
+    transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+    transition: all 0.25s linear;
+}
+
+.form-switch i::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 11px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
+    transform: translate3d(2px, 2px, 0);
+    transition: all 0.2s ease-in-out;
+}
+
+.form-switch:active i::after {
+    width: 28px;
+    transform: translate3d(2px, 2px, 0);
+}
+
+.form-switch:active input:checked + i::after {
+    transform: translate3d(16px, 2px, 0);
+}
+
+.form-switch input {
+    display: none;
+}
+
+.form-switch input:checked + i {
+    background-color: #4BD763;
+}
+
+.form-switch input:checked + i::before {
+    transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0);
+}
+
+.form-switch input:checked + i::after {
+    transform: translate3d(22px, 2px, 0);
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}

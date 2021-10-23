@@ -1,0 +1,255 @@
+﻿@page
+@model BillingNextQuotation.Quotation.Admin.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<link rel="stylesheet" href="~/elements/plugins/fontawesome-free/css/all.min.css">
+<script src="~/Scripts/AjaxTransport/QuotationDetailsAdminCreate.js"></script>
+<link rel="stylesheet" href="~/elements/plugins/select2/css/select2.min.css">
+<script data-require="angular.js@1.4.7" data-semver="1.4.7" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
+<script src="~/Scripts/feet-inch-convertor.js"></script>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Create</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-page="/Index">Home</a></li>
+                    <li class="breadcrumb-item"><a asp-page="/Quotation/Admin/Index">Quotations</a></li>
+                    <li class="breadcrumb-item active">Index</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<h4>Quotation Details</h4>
+<hr />
+<style>
+    .table {
+        display: block !important;
+    }
+
+    .invoice-title h2, .invoice-title h3 {
+        display: inline-block;
+    }
+
+    .table > tbody > tr > .no-line {
+        border-top: none;
+    }
+
+    .table > thead > tr > .no-line {
+        border-bottom: none;
+    }
+
+    .table > tbody > tr > .thick-line {
+        border-top: 2px solid;
+    }
+
+    .table > tbody > tr > .thin-line {
+        border-top: 1px solid;
+        border-bottom: 1px solid;
+    }
+</style>
+<div class="container">
+    <form onsubmit="return false;">
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="companyId" value="@Html.DisplayFor(model => model.Company.CompanyId)" />
+        <div class="jumbotron" style="padding: 5px; border:1px solid; border-radius:5px;">
+            <div class="row justify-content-center">
+                <div class="col-md-3">
+                    <img class="img-fluid" src="data:image/png;base64,@Convert.ToBase64String(Model.Company.CompanyLogoImg)"/>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-3">
+                    <h1>@Html.DisplayFor(model => model.Company.CompanyName)</h1>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        <div class="row justify-content-between">
+            <div class="col-xs-4">
+                <address>
+                    <strong>Quotation For:</strong><br>
+                    <div><select id="customers" class="select2 select2-blue selectCustomer" onchange="customerChanged()" style="width:220px;" asp-items="ViewBag.Customers" required><option></option> </select></div>
+                    <div><p id="toaddress"></p></div><br>
+                </address>
+            </div>
+            <div class="col-xs-4 text-right">
+                <address>
+                    <strong>Generation Date:</strong> <div id="quotationdatediv"><input type="date" id="quotationdate" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now)" style="width:initial; border-radius:4px; height:35px;" /></div><br>
+                    <strong>Quotation Status:</strong><div><select id="quotationstatus" class="select2 select2-blue" asp-items=Html.GetEnumSelectList(typeof(Enums.QuotationStatus))></select></div>
+                </address>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Enter Quotation Details below:</strong></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="">
+                            <table class="table table-condensed order-list table-responsive" id="billdet">
+                                <thead>
+                                    <tr>
+                                        <button class="text-right btn btn-default" id="addoperations" onclick="addInput();"><i class="fas fa-plus-circle"></i></button>&nbsp;&nbsp;
+                                        <button class="text-right btn btn-default" id="deloperation" onclick="removeRow()"><i class="fas fa-minus-circle"></i>  </button>
+                                        <td><strong>Product Name</strong></td>
+                                        <td class="text-left"><strong>Sizing Option</strong></td>
+                                        <td class="text-left"><strong>Measuring Optionn</strong></td>
+                                        <td class="text-left"><strong>Length (Dimension X)</strong></td>
+                                        <td class="text-left"><strong>Width (Dimension Y)</strong></td>
+                                        <td class="text-center"><strong>Rate</strong></td>
+                                        <td class="text-right"><strong>Quantity</strong></td>
+                                    </tr>
+                                </thead>
+                                <tbody id="manupulation">
+                                    <tr id="row-1" class="">
+                                        <td><select id="products-1" class="select2 select2-blue selectProduct" onchange="productchanged(this.id,-1)" style="width:220px;" asp-items="ViewBag.Products" required><option></option> </select></td>
+                                        <td class="text-center"><select id="sheetSizing-1" style="width:130px;" onchange="sheetSizeChange(this.id,-1)" class="form-control" asp-items="Html.GetEnumSelectList(typeof(Enums.SheetSizingOptions))"> </select> </td>
+                                        <td class="text-center"><select id="sheetMeasurement-1" onchange="sheetMeasurementChange(this.id,-1)" class="form-control" asp-items="Html.GetEnumSelectList(typeof(Enums.SheetMeasurementOptions))"> </select> </td>
+                                        <td class="text-center">
+                                            <input id="dimensionX-1" min="0" type="number" class="form-control" onpaste="convertToInchesX($(this).val(),-1);" oninput="convertToInchesX($(this).val(),-1);" onkeyup="convertToInchesX($(this).val(),-1);" style="width:120px;">
+                                            <div id="dimensionXFI-1" ng-app="feetAndInch" style="display:none; padding:5px;">
+                                                <div class="row" ng-controller="testApp as ta">
+                                                    <div>Feet and Inches</div>
+                                                    <div class="input-group">
+                                                        <inches-to-feet-and-inches measure="ta.someMeasure"></inches-to-feet-and-inches>
+                                                        <div class="input-group-append">
+                                                            Total Inches
+                                                            <span class="input-group-text spanChange" id="totalinchX-1" ng-bind="ta.someMeasure | json"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="dimensionXC-1">
+                                                Total Inches(Rounded to 6)
+                                                <span id="measureCentimeterX-1" class="input-group-text InchMeasureX"></span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <input id="dimensionY-1" type="number" min="0" class="form-control" style="width:120px;" oninput="convertToInchesY($(this).val(),-1);" onpaste="convertToInchesY($(this).val(),-1);" onkeyup="convertToInchesY($(this).val(),-1);">
+                                            <div id="dimensionYFI-1" style="display:none; padding:5px;">
+                                                <div class="row" ng-controller="testApp as ta">
+                                                    <div>Feet and Inches</div>
+                                                    <div class="input-group">
+                                                        <inches-to-feet-and-inches measure="ta.someMeasure"></inches-to-feet-and-inches>
+                                                        <div class="input-group-append">
+                                                            Total Inches
+                                                            <span class="input-group-text spanChange" id="totalinchY-1" ng-bind="ta.someMeasure | json"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="dimensionYC-1">
+                                                Total Inches(Rounded to 6)
+                                                <span id="measureCentimeterY-1" class="input-group-text InchMeasureY"></span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center"><input class="form-control" style="width:120px;" type="number" id="rate-1" min="0" required /></td>
+                                        <td class="text-right"><input class="form-control pull-right count-me" oninput="calcQuantity();" style="text-align:right; width:120px; " type="number" id="quantity-1" min="0" required /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line text-center"><strong>Total Sheets</strong></td>
+                                        <td class="thick-line text-right" id="grandtotal"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line text-center" colspan="2"><strong>Other Charges</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="thin-line"></td>
+                                        <td class="thin-line"></td>
+                                        <td class="thin-line"></td>
+                                        <td class="thin-line text-right" colspan="2"></td>
+                                        <td class="thin-line text-right" colspan="2"><label class="form-switch">Use Default Charges<input type="checkbox" id="defaultChargeCHK" onchange="chargeOptionChanged(this.id);" checked /><i></i></label></td>
+                                    </tr>
+                                    @{
+                                        var counter = 0;
+                                        foreach (var item in Model.SpecialCharges)
+                                        {
+                                            <tr id="SCrow-@counter" class="defaultSC" style="display:none;">
+                                                <td></td>
+                                                <td></td>
+                                                <td style="display:none;" id="defSCId-@counter">@item.SpecialChargesId</td>
+                                                <td><label class="form-switch" id="defaultChargeValueLbl-@counter">Use Default Charge Values<input type="checkbox" id="defaultChargeValueCHK-@counter" onchange="defValueOptionChanged(this.id,@counter);" checked><i></i></label></td>
+                                                <td id="defSCName-@counter">@item.SpecialChargeName</td>
+                                                <td><input id="SCFixedCharge-@counter" value="@item.SpecialChargeFixedAmount" type="number" min="1" style="display:none;width:100px;" /></td>
+                                                <td><button onclick="cancelDefSC(@counter)" type="button" id="SCcancel-@counter" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button><button style="display:none;" type="button" class="btn" onclick="usedDefSC(@counter)" id="SCUse-@counter"><i class="fa fa-check" aria-hidden="true"></i></button></td>
+                                            </tr>
+                                            counter++;
+                                        }
+                                    }
+                                    <tr>
+                                        <td class="thin-line"></td>
+                                        <td class="thin-line text-center">
+                                            <div class="addbutton">
+                                                <button class="text-right btn btn-default" id="addoperationsSC" onclick="addInputServiceCharge();"><i class="fas fa-plus-circle"></i></button>
+                                            </div>
+                                        </td>
+                                        <td class="thin-line text-center">
+                                            <div class="delbutton">
+                                                <button class="text-right btn btn-default" id="deloperationSC" style="display:none;" onclick="removeRowServiceCharge()"><i class="fas fa-minus-circle"></i></button>
+                                            </div>
+                                        </td>
+                                        <td class="thin-line" colspan="2">
+                                            <label class="form-switch" id="extraCharge">Add Extra Charges?<input type="checkbox" id="extraChargeCHK" onchange="extraChargeChanged();"><i></i></label>
+                                        </td>
+                                        <td class="text-center thin-line"></td>
+                                        <td class="text-center thin-line"></td>
+                                    </tr>
+                                    <tr class="addhere" id="rowSC1">
+                                        <td></td>
+                                        <td colspan="2"><label class="form-switch">Use Default Charge Amounts<input type="checkbox" id="rowSCDefaultCharge1" onchange="defCAValueOptionChanged(this.id,1);" checked><i></i></label></td>
+                                        <td class="text-center" colspan="2"><select id="ServiceChargeName1" class="select2 select2-blue specialCharge" style="width:220px;" onchange="SCChanged(this.value,1)" asp-items="ViewBag.SpecialCharges"><option></option></select></td>
+                                        <td class="text-center" colspan="2"><input type="number" min="1" style="display:none;" id="ServiceChargeAmt1" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" value="@counter" id="lastcounter" />
+        <div class="row justify-content-center">
+            <div class="col">
+                <p>Quotation Note:<select id="quotationnote" class="select2 select2-blue selectNote" style="width:220px;" asp-items="ViewBag.QuotationNote"><option></option></select></p>
+                <p><i>If not specified, default will be used.</i></p>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="form-group">
+    <input type="button" value="Get Quotation" id="btncreate" class="btn btn-primary" onclick="saveQuotation()" />
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+<script>
+    angular.element(document).ready(function () {
+        angular.bootstrap(document.getElementById("dimensionYFI-1"), ['feetAndInch']);
+    });
+</script>
+

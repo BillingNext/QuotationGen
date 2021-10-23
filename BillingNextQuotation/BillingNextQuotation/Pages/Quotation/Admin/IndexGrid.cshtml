@@ -1,0 +1,32 @@
+﻿@page
+@model BillingNextQuotation.Quotation.Admin.IndexGridModel
+
+@{ Layout = null; }
+
+@* Should only include grid declaration *@
+
+@(Html
+    .Grid(Model.Quotations)
+    .Build(columns =>
+    {
+        columns.Add(model => model.QuotationNumber).Titled("Quotation Number");
+        columns.Add(model => model.QuotationTo).Titled("Quotation To");
+        columns.Add(model => model.QuotationGrandTotalAmount).Titled("Amount");
+        columns.Add(model => model.QuotationStatus).Titled("Status");
+        columns.Add(model => model.QuotationCreationDate).Titled("Creation Date").Formatted("{0:d}");
+        columns.Add(model => model.QuotationGenUser.CustomerCatagory).Titled("Customer Category");
+        columns.Add(model => $"<button class='btn btn-outline-info' onclick=\" window.location.pathname = encodeURI(\'/Quotation/Admin/Details/{model.QuotationId}\');\">Details</button>").Encoded(false).Titled("Details");
+        columns.Add(model => $"<button class='btn btn-outline-warning' onclick=\" window.location.pathname = encodeURI(\'/Quotation/Admin/Edit/{model.QuotationId}\');\">Edit</button>").Encoded(false).Titled("Edit");
+        columns.Add(model => $"<button class='btn btn-outline-danger' onclick=\" window.location.pathname = encodeURI(\'/Quotation/Admin/Delete/{model.QuotationId}\');\">Delete</button>").Encoded(false).Titled("Delete");
+
+
+    })
+    .Empty("No data found")
+    .Pageable(pager =>
+    {
+          pager.RowsPerPage = 10;
+    })
+    .Filterable()
+    .Sortable()
+    .RowAttributed(model => new { @class = model.QuotationStatus == Enums.QuotationStatus.Finalized? "table-success" :  model.QuotationStatus == Enums.QuotationStatus.Negotiation? "table-warning" : model.QuotationStatus == Enums.QuotationStatus.Discarded? "table-danger":model.QuotationStatus == Enums.QuotationStatus.Accepted? "table-primary" :model.QuotationStatus == Enums.QuotationStatus.Billed? "table-info" :null, data_id = model.QuotationId })
+)

@@ -1,0 +1,48 @@
+﻿@page "{specialchargeid}/{quotationid}"
+@model BillingNextQuotation.QuotationSpecialCharges.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+<h3> Special Charges for Quotation: @Model.QuotationSpecialCharges.Quotation.QuotationNumber for @Model.QuotationSpecialCharges.Quotation.QuotationTo</h3><br />
+<h3> Special Charge : @Model.QuotationSpecialCharges.SpecialCharges.SpecialChargeName</h3>
+<h4>Are you sure you want to delete this entry?</h4>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.QuotationSpecialCharges.SpecialCharges)
+        </dt>
+        <dd class="col-sm-6">
+            @Html.DisplayFor(model => model.QuotationSpecialCharges.SpecialCharges.SpecialChargeName)
+        </dd>
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.QuotationSpecialCharges.Quotation)
+        </dt>
+        <dd class="col-sm-6">
+            @Html.DisplayFor(model => model.QuotationSpecialCharges.Quotation.QuotationNumber)
+        </dd>
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.QuotationSpecialCharges.SpecialChargeAmount)
+        </dt>
+        <dd class="col-sm-6">
+            @Html.DisplayFor(model => model.QuotationSpecialCharges.SpecialChargeAmount)
+        </dd>
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.QuotationSpecialCharges.DefaultCalculationOverride)
+        </dt>
+        <dd class="col-sm-6">
+            @Html.DisplayFor(model => model.QuotationSpecialCharges.DefaultCalculationOverride)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="QuotationSpecialCharges.SpecialChargesId" />
+        <input type="hidden" asp-for="QuotationSpecialCharges.QuotationId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="/Quotation/Admin/Edit" asp-route-id="@Model.QuotationSpecialCharges.QuotationId">Back to Edit List</a> |
+        <a asp-page="/Quotation/Admin/Index" >Back to Quotation List</a>
+    </form>
+</div>

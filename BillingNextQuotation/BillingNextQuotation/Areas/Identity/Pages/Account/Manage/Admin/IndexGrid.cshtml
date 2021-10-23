@@ -1,0 +1,28 @@
+﻿@page
+@model BillingNextQuotation.Areas.Identity.Pages.Account.Manage.Admin.IndexGridModel
+
+@{ Layout = null; }
+
+@* Should only include grid declaration *@
+
+@(Html
+    .Grid(Model.QuotationUsers)
+    .Build(columns =>
+    {
+        columns.Add(model => model.Name).Titled("Name");
+        columns.Add(model => model.UserName).Titled("User Name");
+        columns.Add(model => model.RoleName).Titled("Role Name");
+        columns.Add(model => model.PhoneNumber).Titled("Phone Number");
+        columns.Add(model => $"<button class='btn btn-outline-warning' onclick=\" window.location.pathname = encodeURI(\'/Identity/Account/Manage/Admin/Edit/{model.UserId}\');\">Edit</button>").Encoded(false).Titled("Edit");
+        columns.Add(model => $"<button class='btn btn-outline-info' onclick=\" window.location.pathname = encodeURI(\'/Identity/Account/Manage/Admin/Details/{model.UserId}\');\">Details</button>").Encoded(false).Titled("Details");
+        columns.Add(model => $"<button class='btn btn-outline-danger' onclick=\" window.location.pathname = encodeURI(\'/Identity/Account/Manage/Admin/Delete/{model.UserId}\');\">Delete</button>").Encoded(false).Titled("Delete");
+    })
+    .Empty("No data found")
+    .Pageable(pager =>
+    {
+        pager.RowsPerPage = 10;
+    })
+    .Filterable()
+    .Sortable()
+    .RowAttributed(model => new { @class = model.PhoneNumberConfirmed == false ? "table-danger" : null, data_id = model.UserId })
+   )

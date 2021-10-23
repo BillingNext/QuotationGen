@@ -1,0 +1,78 @@
+﻿@page
+@model BillingNextQuotation.Company.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h2>Index</h2>
+
+<p>
+    @if (!Model.Company.Any())
+    {
+        <a asp-page="Create">Create New</a>
+    }
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Company[0].CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company[0].GSTIN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company[0].BankName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company[0].BankAccountType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company[0].AccountNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company[0].IFSCcode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company[0].PAN)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Company)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GSTIN)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BankName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BankAccountType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccountNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IFSCcode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PAN)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.CompanyId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.CompanyId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.CompanyId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

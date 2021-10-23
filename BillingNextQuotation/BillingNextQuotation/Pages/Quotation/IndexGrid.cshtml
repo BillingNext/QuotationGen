@@ -1,0 +1,27 @@
+﻿@page
+@model BillingNextQuotation.Quotation.IndexGridModel
+
+@{ Layout = null; }
+
+@* Should only include grid declaration *@
+
+@(Html
+    .Grid(Model.Quotations)
+    .Build(columns =>
+    {
+        columns.Add(model => $"<button class='btn btn-outline-info' onclick=\" window.location.pathname = encodeURI(\'/Quotation/Details/{model.QuotationId}\');\">Details</button>").Encoded(false).Titled("Details");
+        columns.Add(model => model.QuotationNumber).Titled("Quotation Number");
+        columns.Add(model => model.QuotationGrandTotalAmount).Titled("Amount");
+        columns.Add(model => model.QuotationStatus).Titled("Status");
+        columns.Add(model => model.QuotationCreationDate).Titled("Creation Date").Formatted("{0:d}");
+        columns.Add(model => $"<button class='btn btn-outline-danger' onclick=\" window.location.pathname = encodeURI(\'/Quotation/Delete/{model.QuotationId}\');\">Delete</button>").Encoded(false).Titled("Delete");
+    })
+    .Empty("No data found")
+    .Pageable(pager =>
+    {
+        pager.RowsPerPage = 10;
+    })
+    .Filterable()
+    .Sortable()
+    .RowAttributed(model => new { @class = model.QuotationStatus == Enums.QuotationStatus.Finalized? "table-success" :  model.QuotationStatus == Enums.QuotationStatus.Negotiation? "table-warning" : model.QuotationStatus == Enums.QuotationStatus.Discarded? "table-danger":model.QuotationStatus == Enums.QuotationStatus.Accepted? "table-primary" :model.QuotationStatus == Enums.QuotationStatus.Billed? "table-info" :null, data_id = model.QuotationId })
+)

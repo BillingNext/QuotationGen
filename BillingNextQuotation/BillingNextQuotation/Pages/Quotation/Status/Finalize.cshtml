@@ -1,0 +1,15 @@
+﻿@page
+@model BillingNextQuotation.FinalizeModel
+@{
+    ViewData["Title"] = "Finalize";
+}
+
+<h1>Finalized</h1>
+<p>Quotation finalized and added to queue for billing. </p>
+
+
+<script>
+    setTimeout(function () {
+        window.location.href = '/Redirector?service=Quotation&&subservice=Index';
+    }, 5000);
+</script>

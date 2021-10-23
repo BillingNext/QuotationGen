@@ -1,0 +1,20 @@
+﻿@page
+@model BillingNextQuotation.Areas.Identity.Pages.Account.Manage.Admin.IndexModel
+
+@{
+    Layout = "/Areas/Identity/Pages/Account/Manage/Admin/_Layout.cshtml";
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-area="Identity" asp-page="/Account/Register">Create New User</a>
+</p>
+
+@Html.AjaxGrid(Url.Page("IndexGrid"))
+
+<br>
+<p>
+    <strong>Red striped users have not confirmed their phone number.</strong>
+</p>

@@ -1,0 +1,67 @@
+﻿@page
+@model BillingNextQuotation.Products.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Products</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Products.CreatedByUserId" value="@Model.UserId" />
+            <input type="hidden" asp-for="Products.CompanyId" value="@Model.CompanyId" />
+            <input type="hidden" asp-for="Products.ProductCreationDate" value="@DateTime.Now" />
+            <div class="form-group">
+                <label asp-for="Products.ProductName" class="control-label"></label>
+                <input asp-for="Products.ProductName" class="form-control" />
+                <span asp-validation-for="Products.ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Products.ProductFullSheetPrice" class="control-label"></label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon2">&#8377;</span>
+                    </div>
+                    <input asp-for="Products.ProductFullSheetPrice" class="form-control" aria-describedby="basic-addon2" />
+                </div>
+                <span asp-validation-for="Products.ProductFullSheetPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Products.ProductPieceCutPrice" class="control-label"></label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon2">&#8377;</span>
+                    </div>
+                    <input asp-for="Products.ProductPieceCutPrice" class="form-control" aria-describedby="basic-addon2" />
+                </div>
+                <span asp-validation-for="Products.ProductPieceCutPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Products.ProductDimensionX" class="control-label"></label>
+                <input asp-for="Products.ProductDimensionX" class="form-control" />
+                <span asp-validation-for="Products.ProductDimensionX" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Products.ProductDimensionY" class="control-label"></label>
+                <input asp-for="Products.ProductDimensionY" class="form-control" />
+                <span asp-validation-for="Products.ProductDimensionY" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

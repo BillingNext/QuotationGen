@@ -1,0 +1,14 @@
+﻿@page
+@model BillingNextQuotation.NegotiateModel
+@{
+    ViewData["Title"] = "Negotiate";
+}
+
+<h1>Negotiation</h1>
+<p>Your request for negotiation has been initialized. @Model.CompanyName will soon contact you.</p>
+
+<script>
+    setTimeout(function () {
+        window.location.href = '/Redirector?service=Quotation&&subservice=Index';
+    }, 5000);
+</script>

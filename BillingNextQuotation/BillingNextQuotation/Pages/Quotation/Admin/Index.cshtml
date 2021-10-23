@@ -1,0 +1,34 @@
+﻿@page
+@model BillingNextQuotation.Quotation.Admin.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="well">
+    <h1>All Quotations</h1>
+    <p>
+        <a asp-page="/Quotation/Admin/Create">Create New</a>
+    </p>
+</div>
+<div class="well">
+    @Html.AjaxGrid(Url.Page("IndexGrid"))
+</div>
+<script>
+        
+window.onload = function () {
+    $(window).resize(function(){
+        var $c = $('.container'),
+            $w = $('.well'),
+            totalWidth = $('.navbar').outerWidth(),
+            wellWidth = $c.outerWidth(),
+            diff = totalWidth - wellWidth,
+            marg = -Math.floor(diff/2) + 'px';
+        $w.each(function(){
+            $(this).css({
+                'margin-left': marg,
+                'margin-right': marg
+            });
+        })        
+    });     
+    $(window).resize();
+};
+</script>

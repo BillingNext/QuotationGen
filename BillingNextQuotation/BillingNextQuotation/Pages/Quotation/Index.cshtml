@@ -1,0 +1,13 @@
+﻿@page
+@model BillingNextQuotation.Quotation.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All Your Quotations</h1>
+
+<p>
+    <a asp-page="/Quotation/Create">Create New</a>
+</p>
+@Html.AjaxGrid(Url.Page("IndexGrid"))

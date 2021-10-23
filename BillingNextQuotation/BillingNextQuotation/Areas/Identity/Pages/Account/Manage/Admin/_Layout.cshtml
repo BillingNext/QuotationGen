@@ -1,0 +1,30 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
+    {
+        Layout = (string)parentLayout;
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/Account/Manage/Admin/_Layout.cshtml";
+    }
+}
+
+<h2>Manage Accounts</h2>
+
+<div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            @RenderBody()
+            <script src="~/lib/mvc-grid/js/mvc-grid.js"></script>
+            <script>
+                document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
+            </script>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}
+

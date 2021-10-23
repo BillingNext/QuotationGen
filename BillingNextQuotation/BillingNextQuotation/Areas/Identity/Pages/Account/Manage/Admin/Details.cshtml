@@ -1,0 +1,79 @@
+﻿@page "{id}"
+@model BillingNextQuotation.Areas.Identity.Pages.Account.Manage.Admin.DetailsModel
+
+@{
+    Layout = "/Areas/Identity/Pages/Account/Manage/Admin/_Layout.cshtml";
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Quotation</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.QuotationUser.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.QuotationUser.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.QuotationUser.UserName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.QuotationUser.UserName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.QuotationUser.RoleName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.QuotationUser.RoleName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.QuotationUser.PhoneNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.QuotationUser.PhoneNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.QuotationUser.PhysicalAddress)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.QuotationUser.PhysicalAddress)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.QuotationUser.CustomerCatagory)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.QuotationUser.CustomerCatagory)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.QuotationUser.ProfilePic)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.QuotationUser.ProfilePicture != null)
+            {
+                <img class="img-responsive full-width" style="width:50%; height:50%;" src="data:image/png;base64,@Convert.ToBase64String(Model.QuotationUser.ProfilePicture)" /><br>
+            }
+            else
+            {
+                <img class="img-responsive full-width" style="width:50%; height:50%;" src="~/elements/FrontendDecorators/img/user2-160x160.jpg" /><br>
+            }
+        </dd>
+    </dl>
+</div>
+
+@{
+    if (Model.IsLockedOut)
+    {<form method="post">
+            <input type="hidden" asp-for="QuotationUser.UserId" />
+            <input type="submit" value="Unlock User" class="btn btn-warning" /> 
+        </form>
+    }
+}
+
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.QuotationUser.UserId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

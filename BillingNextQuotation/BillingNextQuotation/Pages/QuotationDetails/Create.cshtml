@@ -1,0 +1,95 @@
+﻿@page "{id}"
+@model BillingNextQuotation.QuotationDetails.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+<link rel="stylesheet" href="~/elements/plugins/select2/css/select2.min.css">
+<script src="~/Scripts/AjaxTransport/QuotationEditModeProductCreate.js"></script>
+<h1>Create</h1>
+
+<h4>Add Product Entry to Quotation for @Model.Quotation.QuotationTo -- Quotation Number: @Model.Quotation.QuotationNumber</h4>
+<hr />
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="QuotationDetails.QuotationId" value="@Model.QuotationId" hidden />
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <label asp-for="QuotationDetails.ProductName" class="control-label"></label>
+                <select asp-for="QuotationDetails.ProductId" onchange="productchanged()" class="form-control select2 select2-blue" asp-items="ViewBag.Product"></select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <label asp-for="QuotationDetails.SheetSizingOptions" class="control-label"></label>
+                <select asp-for="QuotationDetails.SheetSizingOptions"  onchange="sheetSizeChange()" class="form-control" asp-items="Html.GetEnumSelectList(typeof(Enums.SheetSizingOptions))"> </select>
+                <span asp-validation-for="QuotationDetails.SheetSizingOptions" class="text-danger"></span>
+            </div>
+        </div>
+        <div style="display:none;" >
+            <div class="form-group">
+                <label asp-for="QuotationDetails.SheetMeasurementOptions" class="control-label"></label>
+                <select asp-for="QuotationDetails.SheetMeasurementOptions" onchange="sheetMeasurementChange()" class="form-control" asp-items="Html.GetEnumSelectList(typeof(Enums.SheetMeasurementOptions))"> </select>
+                <span asp-validation-for="QuotationDetails.SheetMeasurementOptions" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label asp-for="QuotationDetails.ProductDimensionX" class="control-label"></label>
+                <input asp-for="QuotationDetails.ProductDimensionX" type="number" onpaste="convertToInchesX($(this).val());" oninput="convertToInchesX($(this).val());" onkeyup="convertToInchesX($(this).val());" class="form-control" />
+                <div id="dimensionXC-1">
+                    Total Inches(Rounded to 6)
+                    <input id="measureInchX" name="ProductDimensionX" class="input-group-text" disabled readonly/>
+                </div>
+                <span asp-validation-for="QuotationDetails.ProductDimensionX" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label asp-for="QuotationDetails.ProductDimensionY" class="control-label"></label>
+                <input asp-for="QuotationDetails.ProductDimensionY" type="number" onpaste="convertToInchesY($(this).val());" oninput="convertToInchesY($(this).val());" onkeyup="convertToInchesY($(this).val());" class="form-control" />
+                <div id="dimensionXC-1">
+                    Total Inches(Rounded to 6)
+                    <input id="measureInchY" name="ProductDimensionY" class="input-group-text" disabled readonly />
+                </div>
+                <span asp-validation-for="QuotationDetails.ProductDimensionY" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label asp-for="QuotationDetails.ProductRate" class="control-label"></label>
+                <input asp-for="QuotationDetails.ProductRate" class="form-control" />
+                <span asp-validation-for="QuotationDetails.ProductRate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label asp-for="QuotationDetails.ProductQuantity" class="control-label"></label>
+                <input asp-for="QuotationDetails.ProductQuantity" class="form-control" />
+                <span asp-validation-for="QuotationDetails.ProductQuantity" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-page="/Quotation/Admin/Edit" asp-route-id="@Model.QuotationId">Back to Edit Quotation</a> |
+    <a asp-page="/Quotation/Admin/Index" >Back to Quotation List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+     //$('.select2').select2();
+</script>

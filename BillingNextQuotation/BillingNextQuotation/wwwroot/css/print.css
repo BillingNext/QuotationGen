@@ -1,0 +1,63 @@
+   .invoice-title h2, .invoice-title h3 {
+        display: inline-block;
+    }
+
+    .table > tbody > tr > .no-line {
+        border-top: none;
+    }
+
+    .table > thead > tr > .no-line {
+        border-bottom: none;
+    }
+
+    .table > tbody > tr > .thick-line {
+        border-top: 2px solid;
+    }
+    .fontdec
+    {
+        font-size: 2.17em;
+        font-weight:400;
+    }
+    .hgtinc
+    {
+        height: 100px;
+    }
+    .hgtincdet
+    {
+        font-size: 13px;
+        height: 500px;
+    }
+    .chartdec
+    {
+      font-size: 2.17em;
+      font-weight: 400;
+    }
+    @media only screen and (max-width: 520px) {
+        .fontdec {  
+            font-size: 15px;
+            font-weight: bolder;
+            word-wrap: break-word;
+        }
+        .chartdec {  
+            font-size: 30px;
+            font-weight: bolder;
+        }
+      }
+  
+   .panel{
+       border-color:#000;
+   }
+.panel-heading {
+    border-color: #000;
+}
+@media print {
+    body {
+        width: 21cm;
+        height: 29.7cm;
+        /*margin: 30mm 45mm 30mm 45mm;*/
+        /* change the margins as you want them to be. */
+    }
+    .no-print, .no-print * {
+        display: none !important;
+    }
+}

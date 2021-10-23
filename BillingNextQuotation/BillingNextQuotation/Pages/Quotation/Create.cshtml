@@ -1,0 +1,165 @@
+﻿@page
+@model BillingNextQuotation.Quotation.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+<link rel="stylesheet" href="~/elements/plugins/fontawesome-free/css/all.min.css">
+<script src="~/Scripts/AjaxTransport/QuotationDetailsCreate.js"></script>
+<link rel="stylesheet" href="~/elements/plugins/select2/css/select2.min.css">
+<script data-require="angular.js@1.4.7" data-semver="1.4.7" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
+<script src="~/Scripts/feet-inch-convertor.js"></script>
+<h2>Create</h2>
+
+<h4>Quotation Details</h4>
+<hr />
+<style>
+    .invoice-title h2, .invoice-title h3 {
+        display: inline-block;
+    }
+
+    .table > tbody > tr > .no-line {
+        border-top: none;
+    }
+
+    .table > thead > tr > .no-line {
+        border-bottom: none;
+    }
+
+    .table > tbody > tr > .thick-line {
+        border-top: 2px solid;
+    }
+</style>
+<div class="container">
+    <form onsubmit="return false;">
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="companyId" value="@Html.DisplayFor(model=>model.Company.CompanyId)"/>
+        <div class="jumbotron" style="padding: 5px; border:1px solid; border-radius:5px;">
+            <div class="row justify-content-center">
+                <div class="col-md-3">
+                    <img class="img-fluid" src="data:image/png;base64,@Convert.ToBase64String(Model.Company.CompanyLogoImg)" />
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-3">
+                    <h1>@Html.DisplayFor(model => model.Company.CompanyName)</h1>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        <div class="row justify-content-between">
+            <div class="col-xs-4">
+                <address>
+                    <strong>Quotation For:</strong><br>
+                    <div> <input type="text" id="quotationTo" readonly value="@Model.QuotationUser.Name" class="form-control" style="width:300px;"></div>
+                    <div><p id="toaddress"></p></div><br>
+                </address>
+            </div>
+            <div class="col-xs-4 text-right">
+                <address>
+                    <strong>Generation Date:</strong> <div id="invoicedate"><input type="date" id="invcdt" readonly value="@string.Format("{0:yyyy-MM-dd}",DateTime.Now)" style="width:initial; border-radius:4px; height:35px;" /></div><br>
+                </address>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Enter Quotation Details below:</strong></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="">
+                            <table class="table table-condensed order-list table-responsive-md" id="billdet">
+                                <thead>
+                                    <tr>
+                                        <button class="text-right btn btn-default" id="addoperations" onclick="addInput();"><i class="fas fa-plus-circle"></i></button>&nbsp;&nbsp;
+                                        <button class="text-right btn btn-default" id="deloperation" onclick="removeRow()"><i class="fas fa-minus-circle"></i>  </button>
+                                        <td><strong>Product Name</strong></td>
+                                        <td class="text-left"><strong>Sizing Option</strong></td>
+                                        <td class="text-left"><strong>Measuring Optionn</strong></td>
+                                        <td class="text-left"><strong>Length (Dimension X)</strong></td>
+                                        <td class="text-left"><strong>Width (Dimension Y)</strong></td>
+                                        <td class="text-right"><strong>Quantity</strong></td>
+                                    </tr>
+                                </thead>
+                                <tbody id="manupulation">
+                                    <tr id="row-1" class="">
+                                        <td><select id="products-1" class="select2 select2-blue selectProduct" onchange="productchanged(this.id,-1)" style="width:220px;" asp-items="ViewBag.Products" required><option></option> </select></td>
+                                        <td class="text-center"><select id="sheetSizing-1" style="width:130px;" onchange="sheetSizeChange(this.id,-1)" class="form-control" asp-items="Html.GetEnumSelectList(typeof(Enums.SheetSizingOptions))"> </select> </td>
+                                        <td class="text-center"><select id="sheetMeasurement-1" onchange="sheetMeasurementChange(this.id,-1)"  class="form-control" asp-items="Html.GetEnumSelectList(typeof(Enums.SheetMeasurementOptions))"> </select> </td>
+                                        <td class="text-center"> <input id="dimensionX-1" min="0" type="number" class="form-control" onpaste="convertToInchesX($(this).val(),-1);" oninput="convertToInchesX($(this).val(),-1);" onkeyup="convertToInchesX($(this).val(),-1);"  style="width:120px;">
+                                            <div id="dimensionXFI-1" ng-app="feetAndInch" style="display:none; padding:5px;">
+                                                <div class="row" ng-controller="testApp as ta">
+                                                    <div>Feet and Inches</div>
+                                                    <div class="input-group">
+                                                        <inches-to-feet-and-inches measure="ta.someMeasure"></inches-to-feet-and-inches>
+                                                        <div class="input-group-append">
+                                                            Total Inches
+                                                            <span class="input-group-text spanChange" id="totalinchX-1" ng-bind="ta.someMeasure | json"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="dimensionXC-1">
+                                                Total Inches(Rounded to 6)
+                                                <span id="measureCentimeterX-1" class="input-group-text InchMeasureX"></span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <input id="dimensionY-1" type="number" min="0" class="form-control" style="width:120px;" oninput="convertToInchesY($(this).val(),-1);" onpaste="convertToInchesY($(this).val(),-1);" onkeyup="convertToInchesY($(this).val(),-1);">
+                                            <div id="dimensionYFI-1" style="display:none; padding:5px;">
+                                                <div class="row" ng-controller="testApp as ta">
+                                                    <div>Feet and Inches</div>
+                                                    <div class="input-group">
+                                                        <inches-to-feet-and-inches measure="ta.someMeasure"></inches-to-feet-and-inches>
+                                                        <div class="input-group-append">
+                                                            Total Inches
+                                                            <span class="input-group-text spanChange" id="totalinchY-1" ng-bind="ta.someMeasure | json"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="dimensionYC-1">
+                                                Total Inches(Rounded to 6)
+                                                <span id="measureCentimeterY-1" class="input-group-text InchMeasureY"></span>
+                                            </div>
+                                        </td>
+                                        <td class="text-right"><input class="form-control pull-right count-me" oninput="calcQuantity();" style="text-align:right; width:120px; " type="number" id="quantity-1" min="0" required /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line text-center"><strong>Total Sheets</strong></td>
+                                        <td class="thick-line text-right" id="grandtotal"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="form-group">
+    <input type="button" value="Get Quotation" id="btncreate" class="btn btn-primary" onclick="saveQuotation()" />
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+<script>
+    angular.element(document).ready(function () {
+        angular.bootstrap(document.getElementById("dimensionYFI-1"), ['feetAndInch']);
+    });
+</script>

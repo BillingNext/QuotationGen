@@ -1,0 +1,66 @@
+﻿@page
+@model BillingNextQuotation.SpecialCharges.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecialCharges[0].SpecialChargeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecialCharges[0].SpecialChargeType)
+            </th>
+            <th>
+                Special Charge Amount
+            </th>
+            <th>
+                Special Charge Percentage
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecialCharges[0].IsDefault)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecialCharges[0].Company)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.SpecialCharges) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecialChargeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecialChargeType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecialChargeFixedAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecialChargePercentage) &percnt;
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDefault)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Company.CompanyName)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.SpecialChargesId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.SpecialChargesId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.SpecialChargesId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

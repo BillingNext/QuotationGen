@@ -1,0 +1,311 @@
+﻿@page "{id}"
+@model BillingNextQuotation.Quotation.Admin.DetailsModel
+
+@{
+    ViewData["Title"] = "QN: " + Model.Quotation.QuotationNumber;
+}
+
+
+<style>
+    .invoice-title h2, .invoice-title h3 {
+        display: inline-block;
+    }
+
+    .table > tbody > tr > .no-line {
+        border-top: none;
+    }
+
+    .table > thead > tr > .no-line {
+        border-bottom: none;
+    }
+
+    .table > thead > tr > .thick-line {
+        border-top: 2px solid;
+    }
+
+
+    .table > tbody > tr > .thick-line {
+        border-top: 2px solid;
+    }
+
+    .table > tbody > tr > .thin-line {
+        border-top: 1px solid;
+        border-bottom: 1px solid;
+    }
+</style>
+
+<link href="/css/print.css" rel="stylesheet" />
+<script src="~/Scripts/AjaxTransport/QuotationPrint.js"></script>
+<div class="d-print-none">
+    <h4>Quotation</h4>
+    <hr />
+</div>
+<br>
+<div class="container-fluid d-print-none">
+    <form method="post">
+        <input type="hidden" asp-for="Quotation.QuotationId" />
+        <div class="row justify-content-around">
+            <div class="col" id="ignorePDF">
+                <input type="button" value="Print Quotation" id="btnprint" class="btn btn-outline-info" onclick="printDiv('printableArea')" />
+            </div>
+            @{
+                if (Model.Quotation.QuotationStatus == Enums.QuotationStatus.Accepted)
+                {
+                    <div class="col">
+                        <button class="btn btn-outline-primary" asp-page-handler="Finalize">Finalize Quotation</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-warning" asp-page-handler="Negotiation">Initialize Negotiation</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-danger" asp-page-handler="Discard">Discard Quotation</button>
+                    </div>
+                }
+                else if (Model.Quotation.QuotationStatus == Enums.QuotationStatus.Negotiation)
+                {
+                    <div class="col">
+                        <button class="btn btn-outline-primary" asp-page-handler="Finalize">Finalize Quotation</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-danger" asp-page-handler="Discard">Discard Quotation</button>
+                    </div>
+
+                }
+                else if (Model.Quotation.QuotationStatus == Enums.QuotationStatus.Created)
+                {
+                    <div class="col">
+                        <button class="btn btn-outline-primary" asp-page-handler="Finalize">Finalize Quotation</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-warning" asp-page-handler="Negotiation">Initialize Negotiation</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-danger" asp-page-handler="Discard">Discard Quotation</button>
+                    </div>
+                }
+                else if (Model.Quotation.QuotationStatus == Enums.QuotationStatus.Finalized)
+                {
+                    <div class="col">
+                        <button class="btn btn-outline-success" asp-page-handler="Billed">Mark as billed</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-warning" asp-page-handler="Negotiation">Initialize Negotiation</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-danger" asp-page-handler="Discard">Discard Quotation</button>
+                    </div>
+                }
+                else if (Model.Quotation.QuotationStatus == Enums.QuotationStatus.Discarded)
+                {
+                    <div class="col">
+                        <button class="btn btn-outline-secondary" asp-page-handler="Undiscard">Restore Quotation</button>
+                    </div>
+                }
+            }
+
+        </div>
+    </form>
+</div>
+<br>
+<div class="container" id="printableArea">
+    <form onsubmit="return false;">
+        @Html.AntiForgeryToken()
+        <div class="jumbotron" style="padding: 5px; border: 1px solid; border-radius: 5px;">
+            <div class="row justify-content-center">
+                <div class="col-md-3">
+                    <img class="img-fluid" src="data:image/png;base64,@Convert.ToBase64String(Model.Quotation.Company.CompanyLogoImg)" />
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-4">
+                    <h1>@Html.DisplayFor(model => model.Quotation.Company.CompanyName)</h1>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-5"><h4> <img src="/images/mail.svg" alt="Mail:" width="20px" height="20px" />&nbsp; @Html.DisplayFor(model => model.Quotation.Company.CompanyEmail)</h4></div>
+                <div class="col-sm-5"><h4> <img src="/images/mobile.png" alt="Mobile Number:" width="20px" height="20px" />&nbsp; @Html.DisplayFor(model => model.Quotation.Company.CompanyPhoneNumber)</h4></div>
+            </div>
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-xs-4">
+                <address>
+                    <strong>Quotation To:</strong><br>
+                    <div id="to"><h4> @Html.DisplayFor(model => model.Quotation.QuotationGenUser.Name)</h4> </div>
+                    <div><p id="toaddress">@Html.DisplayFor(model => model.Quotation.QuotationGenUser.PhysicalAddress)</p></div><br>
+                </address>
+            </div>
+            <div class="col-xs-4 text-right">
+                <address>
+                    <strong>Quotation Number:</strong> <div id="invoicenum">@Html.DisplayFor(model => model.Quotation.QuotationNumber)</div><br>
+                    <strong>Quotation Date:</strong> <div id="invoicedate">@Model.Quotation.QuotationCreationDate.Date.ToString("dd-MM-yyyy") </div><br>
+                </address>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Quotation summary</strong></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-condensed order-list" id="billdet">
+                                <thead>
+                                    <tr>
+                                        <td class="text-left"><strong>Sr. No.</strong></td>
+                                        <td class="text-center"><strong>Product Name</strong></td>
+                                        <td class="text-center"><strong>Sheet Size (Full or Pieces)</strong></td>
+                                        <td class="text-center"><strong>Width in Inch(Dimension X)</strong></td>
+                                        <td class="text-center"><strong>Length in Inch(Dimension Y)</strong></td>
+                                        <td class="text-center"><strong>Quantity</strong></td>
+                                        <td class="text-center"><strong>Total Area(In Square Foot)</strong></td>
+                                        <td class="text-center"><strong>Rate(per Squre Foot)</strong></td>
+                                        <td class="text-right"><strong>Amount</strong></td>
+                                    </tr>
+                                </thead>
+                                <tbody id="manupulation">
+                                    @{
+                                        var counter = -1;
+                                    }
+
+                                    @foreach (var item in Model.Quotation.QuotationDetails.OrderBy(a => a.SequenceNumber))
+                                    {
+                                        <tr id="row-@counter">
+                                            <td>
+                                                <p id="sequenceNumber-@counter">@Html.DisplayFor(modelItem => item.SequenceNumber)</p>
+                                            </td>
+                                            <td>
+                                                <p id="productname-@counter">@Html.DisplayFor(modelItem => item.ProductName)</p>
+                                            </td>
+                                            <td>
+                                                <p id="sheetsizing-@counter">@Html.DisplayFor(modelItem => item.SheetSizingOptions)</p>
+                                            </td>
+                                            <td class="text-center">
+                                                <p id="dimensionX-@counter">@Html.DisplayFor(modelItem => item.ProductDimensionX)</p>
+                                            </td>
+                                            <td class="text-center">
+                                                <p id="dimensionY-@counter">@Html.DisplayFor(modelItem => item.ProductDimensionY)</p>
+                                            </td>
+                                            <td class="text-center">
+                                                <p id="productQuantity-@counter">@Html.DisplayFor(modelItem => item.ProductQuantity)</p>
+                                            </td>
+                                            <td class="text-center">
+                                                <p id="totalarea-@counter"> @(item.TotalArea / 144)</p>
+                                            </td>
+                                            <td class="text-center">
+                                                <p id="productrate-@counter">@Html.DisplayFor(modelItem => item.ProductRate)</p>
+                                            </td>
+                                            <td class="text-center count-me">
+                                                <p id="productAmount-@counter">@Html.DisplayFor(modelItem => item.ProductAmount)</p>
+                                            </td>
+                                        </tr>
+                                        counter++;
+                                    }
+
+                                    <tr>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line text-center" style="white-space: nowrap;"><strong>Total (Rounded)</strong></td>
+                                        <td class="thick-line text-center">@Html.DisplayFor(model => model.Quotation.QuotationAmount)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-condensed order-list">
+                                <thead>
+                                    <tr>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line text-left"><strong>Other Charges</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"><strong>Charge Name</strong></td>
+                                        <td class="text-right"><strong>Amount Charged</strong></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Quotation.QuotationSpecialCharges.OrderByDescending(a => a.SpecialCharges.IsDefault))
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-center">@item.SpecialCharges.SpecialChargeName</td>
+                                            <td class="text-right count-me">@Html.DisplayFor(model => item.SpecialChargeAmount)</td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line text-center" style="white-space: nowrap;"><strong>Grand Total</strong></td>
+                                        <td class="thick-line text-right" id="grandtotal">@Html.DisplayFor(model => model.Quotation.QuotationGrandTotalAmount)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <address>
+                                    <strong>PAN:</strong> &nbsp;<div style="display:inline;" id="pan"> @Html.DisplayFor(model => model.Quotation.Company.PAN)</div><br>
+                                    <strong>Bank Name:</strong> &nbsp;<div style="display:inline;" id="bankname"> @Html.DisplayFor(model => model.Quotation.Company.BankName)</div><br>
+                                    <strong>Account Type:</strong> &nbsp;<div style="display:inline;" id="atype">@Html.DisplayFor(model => model.Quotation.Company.BankAccountType)</div><br>
+                                    <strong>Account Number:</strong> &nbsp;<div style="display:inline;" id="anum">@Html.DisplayFor(model => model.Quotation.Company.AccountNumber)</div><br>
+                                    <strong>IFSC Code:</strong> &nbsp;<div style="display:inline;" id="ifsc">@Html.DisplayFor(model => model.Quotation.Company.IFSCcode)</div><br>
+                                </address>
+                            </div>
+                            <div class="col-8 text-right">
+                                <address>
+                                    <strong>Amount In Words: </strong> <div style="display:inline;" id="inwords"></div><br>
+                                </address>
+                            </div>
+                        </div>
+                        <div class="row">
+                            @Html.Raw(new HtmlString(@Model.Quotation.QuotationNote.Note))
+                        </div>
+                        <div class="row">
+                            <i>Status of quotation is "@Html.DisplayFor(model => model.Quotation.QuotationStatus)" at the time of printing.</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<div class="d-print-none">
+    <a asp-page="/Quotation/Admin/Edit" asp-route-id="@Model.Quotation.QuotationId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
+
